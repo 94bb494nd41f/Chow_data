@@ -3,6 +3,7 @@ import os
 import shutil
 import matplotlib.pyplot as plt
 
+
 def xyz(dateiname , datenliste):
     #print(os.getcwd())
     if 'horizon' in dateiname:
@@ -92,6 +93,7 @@ if __name__ == '__main__':
     y_list = []
     z_list = []
     #mydata=np.array([[1,2,3],[1,3,2],[1,4,5],[1,7,8],[1,10,8]])
+    # get all different x,y,z values into one list
     for i in mydata:
         #print(i)
         if i.item(0) not in x_list and i.item(0) > 0:
@@ -101,16 +103,23 @@ if __name__ == '__main__':
         if i.item(2) not in z_list and 1.2 > i.item(2) > 0.68:
             z_list.append(i.item(2))
 
-
     print(mydata.shape)
-    shutil.rmtree(os.getcwd() + '/vertikaleplots')
-    os.mkdir(os.getcwd() + '/vertikaleplots', 0o777)
-    #shutil.rmtree(os.getcwd() + '/vertikaleplots/plots')
-    os.mkdir(os.getcwd() + '/vertikaleplots/plots', 0o777)
-    shutil.rmtree(os.getcwd() + '/horizontaleplots')
-    os.mkdir(os.getcwd() + '/horizontaleplots', 0o777)
-    #shutil.rmtree(os.getcwd() + '/horizontaleplots/plots')
-    os.mkdir(os.getcwd() + '/horizontaleplots/plots', 0o777)
+    # check for directories and create / delete recreate
+    if 'vertikaleplots' in os.listdir():
+        shutil.rmtree(os.getcwd() + '/vertikaleplots')
+        os.mkdir(os.getcwd() + '/vertikaleplots', 0o777)
+        os.mkdir(os.getcwd() + '/vertikaleplots/plots', 0o777)
+
+    if 'vertikaleplots' not in os.listdir():
+        os.mkdir(os.getcwd() + '/vertikaleplots', 0o777)
+        os.mkdir(os.getcwd() + '/vertikaleplots/plots', 0o777)
+    if 'horizontaleplots' in os.listdir():
+        shutil.rmtree(os.getcwd() + '/horizontaleplots')
+        os.mkdir(os.getcwd() + '/horizontaleplots', 0o777)
+        os.mkdir(os.getcwd() + '/horizontaleplots/plots', 0o777)
+    if 'horizontaleplots' not in os.listdir():
+        os.mkdir(os.getcwd() + '/horizontaleplots', 0o777)
+        os.mkdir(os.getcwd() + '/horizontaleplots/plots', 0o777)
 
     n=0
     nn=0
@@ -118,24 +127,24 @@ if __name__ == '__main__':
     vcwd=cwd+'/vertikaleplots'
     hcwd=cwd+'/horizontaleplots'
     os.chdir(cwd)
+    ii=0
     for x in x_list:
+
         #############################################
         #       Horizontal
         #############################################
-        #########################################
-        #       Vertikale linien
-        #########################################
         for y in y_list:
             datenlist=[]
             for z in z_list:
                 for i in mydata:
+                    ii = ii + 1
                     if i.item(0)==x and i.item(1)==y and i.item(2)==z:
                         datenlist.append(i)
                         #print('dinge')
                         n=n+1
                         print(n, 'compared values:', nn)
                     nn=nn+1
-            dateiname = 'horizontaleplots' + str(n)
+            dateiname = 'horizontaleplots' + str(ii)
             if len(datenlist) > 5:
                 os.chdir(hcwd)
                 xyz(dateiname, datenlist)
@@ -152,13 +161,14 @@ if __name__ == '__main__':
             datenlist = []
             for y in y_list:
                 for i in mydata:
+                    ii = ii + 1
                     if i.item(0) == x and i.item(1) == y and i.item(2) == z:
                         datenlist.append(i)
                         # print('dinge')
                         n = n + 1
                         print(n, 'compared values:' , nn)
                         nn = nn + 1
-            dateiname = 'vertikaleplots' + str(n)
+            dateiname = 'vertikaleplots' + str(ii)
             if len(datenlist) > 5:
                 os.chdir(vcwd)
                 xyz(dateiname, datenlist)
