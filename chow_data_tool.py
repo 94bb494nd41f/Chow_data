@@ -18,7 +18,7 @@ def xyz(dateiname , datenliste):
             uy = a[4]
             uz = a[5]
             f.write(str(x) + ',' + str(y) + ',' + str(z) + ',' + str(ux) + ',' + str(uy) + ',' + str(uz)+'\n')
-        f.close
+        f.close()
 
     if 'verti' in dateiname:
         string='x ' + str(datenlist[3][0]) + ' y ' + str(datenlist[3][1]) + ' z ' + str(datenlist[3][2]) + 'vertical.csv'
@@ -32,7 +32,7 @@ def xyz(dateiname , datenliste):
             uy = a[4]
             uz = a[5]
             f.write(str(x) + ',' + str(y) + ',' + str(z) + ',' + str(ux) + ',' + str(uy) + ',' + str(uz)+'\n')
-        f.close
+        f.close()
     return ()
 
 
@@ -65,6 +65,8 @@ def plot(dateiname, dateiliste):
         plt.plot(x_val, y_val, 'or', linestyle='None')
         f.savefig(dateiname + 'u_z uber z' + ' x:' + str(datenlist[3][0]) + '\t' + 'y:' + str(datenlist[3][1]) + '.pdf',
                   bbox_inches='tight')
+        plt.close('all')
+
 
     elif 'verti' in dateiname:
         print('verticalplot \n' , os.getcwd())
@@ -97,13 +99,13 @@ def plot(dateiname, dateiliste):
         plt.plot(x_val, y_val, linestyle='None')
         plt.plot(x_val, y_val, 'or', linestyle='None')
         f.savefig(dateiname + 'u_z uber y x:' + str(datenlist[3][0]) + '\t' + 'z:' + str(datenlist[3][2]) + '.pdf', bbox_inches='tight')
-        plt.close()
+        plt.close('all')
 
     return()
 
 
 if __name__ == '__main__':
-    mydata = np.genfromtxt(str("chow_meter+trans.csv"), skip_header=0, dtype=float, delimiter=',')
+    mydata = np.genfromtxt(str("chow_meter+trans.csv"), skip_header=0, dtype=float, delimiter=',', autostrip=1)
     print(type(mydata))
     print('bytes' , mydata.nbytes)
     x_list = []
@@ -113,11 +115,11 @@ if __name__ == '__main__':
     #  get all different x,y,z values into one list
     for i in mydata:
         # print(i)
-        if i.item(0) not in x_list and i.item(0) > 0:
+        if i.item(0) not in x_list and i.item(0) > 0.6:
             x_list.append(i.item(0))
-        if i.item(1) not in y_list and 0.36 > i.item(1) > 0:
+        if i.item(1) not in y_list:
             y_list.append(i.item(1))
-        if i.item(2) not in z_list and 1.2 > i.item(2) > 0.68:
+        if i.item(2) not in z_list:
             z_list.append(i.item(2))
 
     print(mydata.shape)
@@ -149,44 +151,68 @@ if __name__ == '__main__':
 
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
         #        Horizontal
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+        #
+        # for y in y_list:
+        #     datenlist = []
+        #     #print(datenlist)
+        #     for z in z_list:
+        #         for i in mydata:
+        #             ii = ii + 1
+        #             if i.item(0)==x and i.item(1)==y and i.item(2)==z:
+        #                 datenlist.append(i)
+        #                 # print('dinge')
+        #                 n=n+1
+        #                 print(n, 'compared values:', nn)
+        #             nn=nn+1
+        # dateiname = 'horizontaleplots' + str(ii)
+        # if len(datenlist) > 5:
+        #     print('super!')
+        #     print(datenlistHhluge)
+        #     os.chdir(hcwd)
+        #     xyz(dateiname, datenlist)
+        #     plot(dateiname, datenlist)
+        #     os.chdir(hcwd)
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+        #        Horizontalv2
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         for y in y_list:
-            datenlist=[]
-            for z in z_list:
-                for i in mydata:
-                    ii = ii + 1
-                    if i.item(0)==x and i.item(1)==y and i.item(2)==z:
-                        datenlist.append(i)
-                        # print('dinge')
-                        n=n+1
-                        print(n, 'compared values:', nn)
-                    nn=nn+1
+            datenlist = []
+            #print(datenlist)
+            for i in mydata:
+                ii = ii + 1
+                if i.item(0)==x and i.item(1)==y:
+                    datenlist.append(i)
+                    # print('dinge')
+                    n=n+1
+                    print(n, 'compared values:', nn)
+                nn=nn+1
             dateiname = 'horizontaleplots' + str(ii)
             if len(datenlist) > 5:
+                print('super!')
+                print(datenlist)
                 os.chdir(hcwd)
                 xyz(dateiname, datenlist)
                 plot(dateiname, datenlist)
                 os.chdir(hcwd)
-
-
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         #        Vertikale linien
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         os.chdir(cwd)
         for z in z_list:
             datenlist = []
-            for y in y_list:
-                for i in mydata:
-                    ii = ii + 1
-                    if i.item(0) == x and i.item(1) == y and i.item(2) == z:
-                        datenlist.append(i)
-                        #  print('dinge')
-                        n = n + 1
-                        print(n, 'compared values:' , nn)
-                        nn = nn + 1
+            for i in mydata:
+                ii = ii + 1
+                if i.item(0) == x and i.item(1) == y and i.item(2) == z:
+                    datenlist.append(i)
+                    #  print('dinge')
+                    n = n + 1
+                    print(n, 'compared values:' , nn)
+                    nn = nn + 1
             dateiname = 'vertikaleplots' + str(ii)
             if len(datenlist) > 5:
+                print('super!')
+                print(datenlist)
                 os.chdir(vcwd)
                 xyz(dateiname, datenlist)
                 plot(dateiname, datenlist)
