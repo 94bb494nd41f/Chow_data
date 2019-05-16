@@ -115,7 +115,7 @@ if __name__ == '__main__':
     #  get all different x,y,z values into one list
     for i in mydata:
         # print(i)
-        if i.item(0) not in x_list and i.item(0) > 0.6:
+        if i.item(0) not in x_list:
             x_list.append(i.item(0))
         if i.item(1) not in y_list:
             y_list.append(i.item(1))
@@ -128,7 +128,6 @@ if __name__ == '__main__':
         shutil.rmtree(os.getcwd() + '/vertikaleplots')
         os.mkdir(os.getcwd() + '/vertikaleplots', 0o777)
         os.mkdir(os.getcwd() + '/vertikaleplots/plots', 0o777)
-
     if 'vertikaleplots' not in os.listdir():
         os.mkdir(os.getcwd() + '/vertikaleplots', 0o777)
         os.mkdir(os.getcwd() + '/vertikaleplots/plots', 0o777)
@@ -148,37 +147,11 @@ if __name__ == '__main__':
     os.chdir(cwd)
     ii=0
     for x in x_list:
-
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-        #        Horizontal
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        #
-        # for y in y_list:
-        #     datenlist = []
-        #     #print(datenlist)
-        #     for z in z_list:
-        #         for i in mydata:
-        #             ii = ii + 1
-        #             if i.item(0)==x and i.item(1)==y and i.item(2)==z:
-        #                 datenlist.append(i)
-        #                 # print('dinge')
-        #                 n=n+1
-        #                 print(n, 'compared values:', nn)
-        #             nn=nn+1
-        # dateiname = 'horizontaleplots' + str(ii)
-        # if len(datenlist) > 5:
-        #     print('super!')
-        #     print(datenlistHhluge)
-        #     os.chdir(hcwd)
-        #     xyz(dateiname, datenlist)
-        #     plot(dateiname, datenlist)
-        #     os.chdir(hcwd)
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         #        Horizontalv2
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         for y in y_list:
             datenlist = []
-            #print(datenlist)
             for i in mydata:
                 ii = ii + 1
                 if i.item(0)==x and i.item(1)==y:
@@ -189,21 +162,21 @@ if __name__ == '__main__':
                 nn=nn+1
             dateiname = 'horizontaleplots' + str(ii)
             if len(datenlist) > 5:
-                print('super!')
+                print('super!Horizontal')
                 print(datenlist)
                 os.chdir(hcwd)
                 xyz(dateiname, datenlist)
                 plot(dateiname, datenlist)
                 os.chdir(hcwd)
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        #        Vertikale linien
+        #        Vertikale linienv2
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         os.chdir(cwd)
         for z in z_list:
             datenlist = []
             for i in mydata:
                 ii = ii + 1
-                if i.item(0) == x and i.item(1) == y and i.item(2) == z:
+                if i.item(0) == x and i.item(2) == z:
                     datenlist.append(i)
                     #  print('dinge')
                     n = n + 1
@@ -211,7 +184,7 @@ if __name__ == '__main__':
                     nn = nn + 1
             dateiname = 'vertikaleplots' + str(ii)
             if len(datenlist) > 5:
-                print('super!')
+                print('super!Vertikal')
                 print(datenlist)
                 os.chdir(vcwd)
                 xyz(dateiname, datenlist)
