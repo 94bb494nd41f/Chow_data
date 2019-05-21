@@ -48,13 +48,13 @@ def plot(dateiname, dateiliste):
         # #####################
         f = plt.figure()
         x_val = [x[2] for x in datenlist]
-        y_val = [x[4] for x in datenlist]
+        y_val = [x[4]/51.82 for x in datenlist]
         plt.xlabel('z var, x:' + str(datenlist[1][0]) + '\t' + 'y:' + str(datenlist[1][1]))
         plt.ylabel('U_y')
         plt.grid(True)
         plt.plot(x_val, y_val, linestyle='None')
         plt.plot(x_val, y_val, 'or', linestyle='None')
-        f.savefig(dateiname + 'u_y uber z' + ' x:' + str(datenlist[1][0]) + '\t' + 'y:' + str(datenlist[1][1]) + '.pdf', bbox_inches='tight')
+        f.savefig(dateiname + 'u_y:51.82 uber z' + ' x:' + str(datenlist[1][0]) + '\t' + 'y:' + str(datenlist[1][1]) + '.pdf', bbox_inches='tight')
 
         # #####################
         #  U_z plot_Nomiert
@@ -89,23 +89,41 @@ def plot(dateiname, dateiliste):
         # f.savefig(dateiname + 'u_x uber y x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]) + '.pdf', bbox_inches='tight')
         # plt.close()
 
-        # #####################
-        #  U_z plot
-        # #####################
+        #####################
+         ##U_z plot
+        #####################
         f = plt.figure()
         x_val = [x[1]/1.2192 for x in datenlist]
-        y_val = [x[4]/51.82 for x in datenlist]
+        y_val = [x[5]/51.82 for x in datenlist]
         #y_val = [np.sqrt(x[4]**2+x[5]**2)/51.82 for x in datenlist]
         #  xlim((left, right)) restrain x/yrange
         #  plt.xlim((max(datenlist[5])*0.9 , max(datenlist[5])*1.1))
         #  plt.ylim((max(datenlist[1])*0.9 , max(datenlist[1])*1.1))
         plt.xlabel('y var, x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]))
-        plt.ylabel('U_y/51.82')
+        plt.ylabel('U_z/51.82')
         plt.grid(True)
         plt.plot(x_val, y_val, linestyle='None')
         plt.plot(x_val, y_val, 'or', linestyle='None')
         f.savefig(dateiname + 'u_z:51.82 uber y x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]) + '.pdf', bbox_inches='tight')
         plt.close('all')
+
+        # # #####################
+        # #  U_y plot
+        # # #####################
+        # f = plt.figure()
+        # x_val = [x[1]/1.2192 for x in datenlist]
+        # y_val = [x[4]/51.82 for x in datenlist]
+        # #y_val = [np.sqrt(x[4]**2+x[5]**2)/51.82 for x in datenlist]
+        # #  xlim((left, right)) restrain x/yrange
+        # #  plt.xlim((max(datenlist[5])*0.9 , max(datenlist[5])*1.1))
+        # #  plt.ylim((max(datenlist[1])*0.9 , max(datenlist[1])*1.1))
+        # plt.xlabel('y var, x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]))
+        # plt.ylabel('U_y/51.82')
+        # plt.grid(True)
+        # plt.plot(x_val, y_val, linestyle='None')
+        # plt.plot(x_val, y_val, 'or', linestyle='None')
+        # f.savefig(dateiname + 'u_y:51.82 uber y x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]) + '.pdf', bbox_inches='tight')
+        # plt.close('all')
 
     return()
 
@@ -123,9 +141,11 @@ if __name__ == '__main__':
         # print(i)
         if i.item(0) not in x_list and 0.6 > i.item(0) > -0.37:
             x_list.append(i.item(0))
+
         if i.item(1) not in y_list:
             y_list.append(i.item(1))
-        if i.item(2) not in z_list:
+
+        if i.item(2) not in z_list and 0.9 > i.item(2) > 0.8:
             z_list.append(i.item(2))
 
     print(mydata.shape)
@@ -152,6 +172,7 @@ if __name__ == '__main__':
     hcwd=cwd+'/horizontaleplots'
     os.chdir(cwd)
     for x in x_list:
+
     #     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     #     #        Horizontalv2
     #     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -174,13 +195,16 @@ if __name__ == '__main__':
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         os.chdir(cwd)
         for z in z_list:
+
             datenlist = []
             for i in mydata:
+
                 if i.item(0) == x and i.item(2) == z:
                     datenlist.append(i)
                     #  print('dinge')
                     n = n + 1
                     print(n, 'compared values:', n)
+
             dateiname = 'vertikaleplots'
             if len(datenlist) > 1:
                 os.chdir(vcwd)
