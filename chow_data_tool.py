@@ -76,21 +76,21 @@ def plot(dateiname, dateiliste):
         print('verticalplot \n' , os.getcwd())
         os.chdir(cwd+'/plots')
 
-        # # #####################
-        # #  U_x plot
-        # # #####################
-        # f = plt.figure()
-        # x_val = [x[1] for x in datenlist]
-        # y_val = [x[3] for x in datenlist]
-        # plt.xlabel('y var, x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]))
-        # plt.ylabel('U_x')
-        # plt.plot(x_val, y_val, linestyle='None')
-        # plt.plot(x_val, y_val, 'or', linestyle='None')
-        # f.savefig(dateiname + 'u_x uber y x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]) + '.pdf', bbox_inches='tight')
-        # plt.close()
+        # #####################
+        #  U_x plot
+        # #####################
+        f = plt.figure()
+        x_val = [x[1] for x in datenlist]
+        y_val = [x[3] for x in datenlist]
+        plt.xlabel('y var, x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]))
+        plt.ylabel('U_x')
+        plt.plot(x_val, y_val, linestyle='None')
+        plt.plot(x_val, y_val, 'or', linestyle='None')
+        f.savefig(dateiname + 'u_x uber y x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]) + '.pdf', bbox_inches='tight')
+        plt.close()
 
         #####################
-         ##U_z plot
+        ## U_z plot
         #####################
         f = plt.figure()
         x_val = [x[1]/1.2192 for x in datenlist]
