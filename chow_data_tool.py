@@ -71,41 +71,76 @@ def plot(dateiname, dateiliste):
                   bbox_inches='tight')
         plt.close('all')
 
-
     elif 'verti' in dateiname:
         print('verticalplot \n' , os.getcwd())
         os.chdir(cwd+'/plots')
 
+        # # #####################
+        # #  U_x plot
+        # # #####################
+        # f = plt.figure()
+        # x_val = [x[1] for x in datenlist]
+        # y_val = [x[3] for x in datenlist]
+        # plt.xlabel('y var, x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]))
+        # plt.ylabel('U_x')
+        # plt.plot(x_val, y_val, linestyle='None')
+        # plt.plot(x_val, y_val, 'or', linestyle='None')
+        # f.savefig(dateiname + 'u_x uber y x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]) + '.pdf', bbox_inches='tight')
+        # plt.close()
+
         # #####################
-        #  U_x plot
+        #  U_x plot normiert
         # #####################
         f = plt.figure()
         x_val = [x[1] for x in datenlist]
-        y_val = [x[3] for x in datenlist]
+        y_val = [x[3]/51.82 for x in datenlist]
         plt.xlabel('y var, x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]))
-        plt.ylabel('U_x')
+        plt.ylabel('U_x/51.82')
         plt.plot(x_val, y_val, linestyle='None')
         plt.plot(x_val, y_val, 'or', linestyle='None')
-        f.savefig(dateiname + 'u_x uber y x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]) + '.pdf', bbox_inches='tight')
+        f.savefig(dateiname + 'u_x:51.82 uber y x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]) + '.pdf', bbox_inches='tight')
         plt.close()
 
+        # #####################
+        # ## U_z plot normiert
+        # #####################
+        # f = plt.figure()
+        # x_val = [x[1]/1.2192 for x in datenlist]
+        # y_val = [x[5]/51.82 for x in datenlist]
+        # #y_val = [np.sqrt(x[4]**2+x[5]**2)/51.82 for x in datenlist]
+        # #  xlim((left, right)) restrain x/yrange
+        # #  plt.xlim((max(datenlist[5])*0.9 , max(datenlist[5])*1.1))
+        # #  plt.ylim((max(datenlist[1])*0.9 , max(datenlist[1])*1.1))
+        # plt.xlabel('y var, x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]))
+        # plt.ylabel('U_z/51.82')
+        # plt.grid(True)
+        # plt.plot(x_val, y_val, linestyle='None')
+        # plt.plot(x_val, y_val, 'or', linestyle='None')
+        # f.savefig(dateiname + 'u_z:51.82 uber y x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]) + '.pdf', bbox_inches='tight')
+        # plt.close('all')
+
         #####################
-        ## U_z plot
+        ## U_crossflow
         #####################
         f = plt.figure()
         x_val = [x[1]/1.2192 for x in datenlist]
-        y_val = [x[5]/51.82 for x in datenlist]
-        #y_val = [np.sqrt(x[4]**2+x[5]**2)/51.82 for x in datenlist]
+        # crossflow velocity = U_cross=sqrt(u_y**2+u_z**2)/u_inlet
+        y_val = [(np.sqrt(x[4]**2+x[5]**2)/51.82)  for x in datenlist]
+        # y_val = [np.sqrt(x[4]**2+x[5]**2)/51.82 for x in datenlist]
         #  xlim((left, right)) restrain x/yrange
         #  plt.xlim((max(datenlist[5])*0.9 , max(datenlist[5])*1.1))
         #  plt.ylim((max(datenlist[1])*0.9 , max(datenlist[1])*1.1))
         plt.xlabel('y var, x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]))
-        plt.ylabel('U_z/51.82')
+        plt.ylabel('U_crossflow sqrt(u_y**2+u_z**2)/u_inlet')
         plt.grid(True)
         plt.plot(x_val, y_val, linestyle='None')
         plt.plot(x_val, y_val, 'or', linestyle='None')
-        f.savefig(dateiname + 'u_z:51.82 uber y x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]) + '.pdf', bbox_inches='tight')
+        f.savefig(dateiname + 'u_cross uber y x:' + str(datenlist[1][0]) + '\t' + 'z:' + str(datenlist[1][2]) + '.pdf', bbox_inches='tight')
         plt.close('all')
+
+
+
+
 
         # # #####################
         # #  U_y plot
@@ -139,13 +174,13 @@ if __name__ == '__main__':
     #  get all different x,y,z values into one list
     for i in mydata:
         # print(i)
-        if i.item(0) not in x_list and 0.6 > i.item(0) > -0.37:
+        if i.item(0) not in x_list and 0.85 > i.item(0) > -0.37:
             x_list.append(i.item(0))
 
         if i.item(1) not in y_list:
             y_list.append(i.item(1))
 
-        if i.item(2) not in z_list and 0.9 > i.item(2) > 0.8:
+        if i.item(2) not in z_list and 0.9 > i.item(2) > 0.75:
             z_list.append(i.item(2))
 
     print(mydata.shape)
